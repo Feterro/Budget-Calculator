@@ -8,9 +8,12 @@ import java.net.URLEncoder;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
-import org.json.simple.*;
+import org.json.*;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import java.io.UnsupportedEncodingException;
+import org.json.simple.JSONValue;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 /**
  *
@@ -21,7 +24,7 @@ String url= "https://amazon-price1.p.rapidapi.com/search";
 String charset = "UTF-8";
 String x_rapidapi_host = "amazon-price1.p.rapidapi.com";
  String x_rapidapi_key= "a2e1fb8cc1msh43223b3f37858c1p1daa25jsn3805e9e254f5";
-public String generateResponse(String busqueda) throws UnsupportedEncodingException, UnirestException
+public String generateResponse(String busqueda) throws UnsupportedEncodingException, UnirestException, ParseException
 {
     String query = String.format("s=%s",
     URLEncoder.encode(busqueda, this.charset));
@@ -29,13 +32,21 @@ public String generateResponse(String busqueda) throws UnsupportedEncodingExcept
 	.header("x-rapidapi-host", x_rapidapi_host)
 	.header("x-rapidapi-key", x_rapidapi_key)
 	.asString();
-
-    Object obj=JSONValue.parse(response.getBody().toString());
-    JSONArray finalResult=(JSONArray)obj;
-    for(int i=0;i<finalResult.size();i++)
+ 
+    System.out.println(response.getStatus());
+    System.out.println(response.getBody().toString());
+    JSONArray arr = new JSONArray(response.getBody().toString());
+    for(int i=0;i<arr.length()-1;i++)
     {
-        System.out.println(finalResult.get(i));
+        JSONObject obj=arr.getJSONObject(i);
+        System.out.print(obj.getString("title"));
+        
+        
     }
+    // get a String from the JSON object
+    
+
+    
     return "a" ;
 }
   public static void main( String[] args ) throws Exception
