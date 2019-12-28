@@ -8,7 +8,7 @@ import java.net.URLEncoder;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
-import org.json.*;
+import org.json.simple.*;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import java.io.UnsupportedEncodingException;
 
@@ -29,9 +29,13 @@ public String generateResponse(String busqueda) throws UnsupportedEncodingExcept
 	.header("x-rapidapi-host", x_rapidapi_host)
 	.header("x-rapidapi-key", x_rapidapi_key)
 	.asString();
- 
-    System.out.println(response.getStatus());
-    System.out.println(response.getBody().toString());
+
+    Object obj=JSONValue.parse(response.getBody().toString());
+    JSONArray finalResult=(JSONArray)obj;
+    for(int i=0;i<finalResult.size();i++)
+    {
+        System.out.println(finalResult.get(i));
+    }
     return "a" ;
 }
   public static void main( String[] args ) throws Exception
