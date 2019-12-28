@@ -24,7 +24,7 @@ String url= "https://amazon-price1.p.rapidapi.com/search";
 String charset = "UTF-8";
 String x_rapidapi_host = "amazon-price1.p.rapidapi.com";
  String x_rapidapi_key= "a2e1fb8cc1msh43223b3f37858c1p1daa25jsn3805e9e254f5";
-public String generateResponse(String busqueda) throws UnsupportedEncodingException, UnirestException, ParseException
+public JSONArray generateResponse(String busqueda) throws UnsupportedEncodingException, UnirestException, ParseException
 {
     String query = String.format("s=%s",
     URLEncoder.encode(busqueda, this.charset));
@@ -36,24 +36,14 @@ public String generateResponse(String busqueda) throws UnsupportedEncodingExcept
     System.out.println(response.getStatus());
     System.out.println(response.getBody().toString());
     JSONArray arr = new JSONArray(response.getBody().toString());
-    for(int i=0;i<arr.length()-1;i++)
-    {
-        JSONObject obj=arr.getJSONObject(i);
-        System.out.print(obj.getString("title"));
-        
-        
-    }
+
     // get a String from the JSON object
     
 
     
-    return "a" ;
+    return arr ;
 }
-  public static void main( String[] args ) throws Exception
-  {
-      API_Manager asd=new API_Manager();
-      String hola=asd.generateResponse("Ryzen r5 3600");
-  }
+
   
   }
 
